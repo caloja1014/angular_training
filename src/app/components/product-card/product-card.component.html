@@ -1,4 +1,11 @@
 <div class="product-card">
+  <span class="product-stock {{product().stock? 'success': 'fail'}}">
+    @if (product().stock) {
+    {{product().stock}} Left
+    } @else {
+    Out of Stock
+    }
+  </span>
   <img [src]="product().image" alt="{{ product().title }}" />
   <div class="product-info">
     <span class="product-title">
@@ -7,13 +14,7 @@
     <span class="product-price">
       {{'$' + product().price}}
     </span>
-    <app-primary-button label="Add to Cart" />
+    <app-primary-button label="Add to Cart" (btnClicked)="cartService.addToCart(product())"
+      [disabled]="(product().stock??0)===0" />
   </div>
-  <span class="product-stock">
-    @if ((product().stock??0) > 0) {
-    <span class="in-stock">{{product().stock}} Left</span>
-    } @else {
-    <span class="out-of-stock">Out of Stock</span>
-    }
-  </span>
 </div>

@@ -9,7 +9,5 @@ import { Component, input, output } from '@angular/core';
 export class PrimaryButtonComponent {
   label= input('');
   btnClicked = output<void>();
-  // handleClick() {
-  //   this.btnClicked.emit();
-  // }
+  disabled= input(false);
 }

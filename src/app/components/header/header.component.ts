@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { PrimaryButtonComponent } from "../primary-button/primary-button.component";
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,7 @@ import { PrimaryButtonComponent } from "../primary-button/primary-button.compone
 })
 export class HeaderComponent {
   title = signal('Angular ECommerce App');
+  cartService = inject(CartService);
   showButtonClick() {
     console.log('Button clicked!');
   }
