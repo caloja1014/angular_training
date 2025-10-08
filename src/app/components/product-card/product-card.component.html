@@ -1,0 +1,19 @@
+<div class="product-card">
+  <img [src]="product().image" alt="{{ product().title }}" />
+  <div class="product-info">
+    <span class="product-title">
+      {{product().title}}
+    </span>
+    <span class="product-price">
+      {{'$' + product().price}}
+    </span>
+    <app-primary-button label="Add to Cart" />
+  </div>
+  <span class="product-stock">
+    @if ((product().stock??0) > 0) {
+    <span class="in-stock">{{product().stock}} Left</span>
+    } @else {
+    <span class="out-of-stock">Out of Stock</span>
+    }
+  </span>
+</div>
