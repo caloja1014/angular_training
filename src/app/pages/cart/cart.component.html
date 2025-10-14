@@ -1,1 +1,14 @@
-<p>cart works!</p>
+<div class="cart-page">
+  <h2>Your Cart</h2>
+  @if (
+  cartService.cart().length === 0
+  ) {
+  <p>Your cart is empty.</p>
+  }
+  @else {
+  @for (item of cartService.cart(); track item.product.id) {
+  <app-product-cart [product]="item" (onRemove)="cartService.removeFromCart($event)"></app-product-cart>
+  }
+  }
+
+</div>

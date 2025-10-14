@@ -1,0 +1,10 @@
+<div class="product-cart-container">
+  <div class="product-cart-image">
+    <img [src]="product().product.image" alt="{{ product().product.image }}" />
+  </div>
+  <div class="product-cart-details">
+    <span class="product-cart-title">{{ product().product.title }}</span>
+    <span class="product-cart-price">{{ '$' + product().product.price }}</span>
+    <button (click)="this.removeFromCart()">Remove</button>
+  </div>
+</div>
