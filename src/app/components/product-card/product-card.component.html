@@ -6,7 +6,9 @@
     Out of Stock
     }
   </span>
-  <img [src]="product().image" alt="{{ product().title }}" />
+  <div (click)="viewProduct()" class="product-image">
+    <img [src]="product().image" alt="{{ product().title }}" />
+  </div>
   <div class="product-info">
     <span class="product-title">
       {{product().title}}

@@ -9,7 +9,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 15px 50px;
-
+  width: 200px;
   img {
     width: 100px;
     height: 200px;
@@ -41,6 +41,11 @@
       margin: 0;
     }
   }
+
+  .product-image {
+    cursor: pointer;
+  }
+
   .product-stock {
     position: absolute;
     top: 10px;
@@ -48,5 +53,5 @@
     font-weight: bold;
     font-size: 12px;
   }
-  
+
 }
