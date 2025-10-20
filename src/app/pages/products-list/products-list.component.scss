@@ -1,6 +1,25 @@
-.products-list{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+.products-list {
+  display: grid;
+
+  gap: 20px;
+  // padding: 20px;
+  justify-content: center;
+  // align-items: center;
+  justify-items: center;
+
+  @media only screen and (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media only screen and (min-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media only screen and (min-width: 1280px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+
+
+
 }
