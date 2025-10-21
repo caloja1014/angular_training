@@ -1,10 +1,27 @@
 export interface Product {
-  id: number;
-  title: string;
-  image: string;
-  price: number;
-  stock?: number;
-  description?: string;
-  category?: string;
+  id: number
+  name: string
+  description: string
+  price: number
+  imageUrl: any
+  createdAt: string
+  updatedAt: string
+  CategoryId: number
+  Category: Category
+  Inventory: Inventory
+}
 
+export interface Category {
+  id: number
+  name: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Inventory {
+  id: number
+  stock: number
+  createdAt: string
+  updatedAt: string
+  ProductId: number
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
+import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, HeaderComponent],
@@ -9,4 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class AppComponent {
   title = 'angular-training';
+
+  constructor() {
+  }
 }

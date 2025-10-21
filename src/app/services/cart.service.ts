@@ -1,6 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { Product } from '../models/products.model';
 import { ProductCart } from '../models/product-cart.model';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,13 @@ import { ProductCart } from '../models/product-cart.model';
 export class CartService {
 
   cart = signal<ProductCart[]>([]);
+  private relativeUrl = '/cart';
+  private baseUrl;
+  constructor(
+    private http: HttpClient
+  ) {
+    this.baseUrl = environment.apiUrl;
+  }
 
   addToCart(product: Product) {
     const productInCart = this.cart().find(p => p.product.id === product.id);
@@ -28,5 +37,4 @@ export class CartService {
   getQuantity() {
     return this.cart().reduce((total, item) => total + item.quantity, 0);
   }
-  constructor() { }
 }
