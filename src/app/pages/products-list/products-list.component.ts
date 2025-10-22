@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { Product } from '../../models/products.model';
+import { Component, inject, OnInit } from '@angular/core';
 import { ProductCardComponent } from "../../components/product-card/product-card.component";
-import { ProductService } from '../../services/product.service';
+import { Store } from '@ngrx/store';
+import { ProductsActions } from '../../store/products/products.actions';
+import { selectAllProducts, selectProductsLoadingState } from '../../store/products/products.selectors';
 
 @Component({
   selector: 'app-products-list',
@@ -10,16 +11,15 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './products-list.component.scss'
 })
 export class ProductsListComponent implements OnInit{
-  products = signal<Product[]>([]);
-  productService = inject(ProductService);
+  private readonly store = inject(Store);
+  readonly products = this.store.selectSignal(selectAllProducts);
+  readonly loading = this.store.selectSignal(selectProductsLoadingState);
 
   constructor() {
   }
 
-  async ngOnInit() {
-    const products = await this.productService.getProducts();
-    console.log(products);
-    this.products.set(products)
+  ngOnInit() {
+    this.store.dispatch(ProductsActions.loadProducts());
   }
 
   // products = signal<Product[]>([
