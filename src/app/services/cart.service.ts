@@ -16,7 +16,6 @@ export class CartService {
   private baseUrl;
 
   getQuantity = computed(() => {
-    console.log('Getting quantity 2', this.cart());
     if (this.cart() && this.cart()?.CartItems) {
       return this.cart()?.CartItems?.reduce((total, item) => total + item.quantity, 0);
     }
@@ -32,7 +31,6 @@ export class CartService {
     let currentCart = this.cart();
     if (!currentCart) {
       currentCart = await this.createCart();
-      console.log('Created cart', currentCart);
       this.cart.set(currentCart);
     }
     const itemAdded = await firstValueFrom(this.http.post<any>(`${this.baseUrl}${this.relativeUrl}/${currentCart?.id}/items`, {
