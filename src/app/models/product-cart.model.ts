@@ -4,7 +4,7 @@ export interface ProductCart {
   userName: string
   createdAt: string
   updatedAt: string
-  CartItems: CartItem[]
+  CartItems?: CartItem[]
   total: number
 }
 

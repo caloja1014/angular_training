@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Product } from '../../models/products.model';
 import { ProductCardComponent } from "../../components/product-card/product-card.component";
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-products-list',
@@ -8,7 +9,19 @@ import { ProductCardComponent } from "../../components/product-card/product-card
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.scss'
 })
-export class ProductsListComponent {
+export class ProductsListComponent implements OnInit{
+  products = signal<Product[]>([]);
+  productService = inject(ProductService);
+
+  constructor() {
+  }
+
+  async ngOnInit() {
+    const products = await this.productService.getProducts();
+    console.log(products);
+    this.products.set(products)
+  }
+
   // products = signal<Product[]>([
   //   { id: 1, title: 'Product 1', image: 'https://placehold.co/150', price: 10.99, stock: 5, category: 'Category A', description: 'This is a description for Product 1' },
   //   { id: 2, title: 'Product 2', image: 'https://placehold.co/150', price: 12.99, stock: 3, description: 'This is a description for Product 2' },

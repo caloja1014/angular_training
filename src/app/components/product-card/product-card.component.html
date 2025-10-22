@@ -1,22 +1,22 @@
 <div class="product-card">
-  <span class="product-stock {{product().stock? 'success': 'fail'}}">
-    @if (product().stock) {
-    {{product().stock}} Left
+  <span class="product-stock {{product().Inventory?.stock? 'success': 'fail'}}">
+    @if (product().Inventory?.stock) {
+    {{product().Inventory?.stock}} Left
     } @else {
     Out of Stock
     }
   </span>
   <div (click)="viewProduct()" class="product-image">
-    <img [src]="product().image" alt="{{ product().title }}" />
+    <img [src]="product().imageUrl??'https://placehold.co/150'" alt="{{ product().name }}" />
   </div>
   <div class="product-info">
     <span class="product-title">
-      {{product().title}}
+      {{product().name}}
     </span>
     <span class="product-price">
       {{'$' + product().price}}
     </span>
     <app-primary-button label="Add to Cart" (btnClicked)="cartService.addToCart(product())"
-      [disabled]="(product().stock??0)===0" />
+      [disabled]="(product().Inventory?.stock??0)===0" />
   </div>
 </div>

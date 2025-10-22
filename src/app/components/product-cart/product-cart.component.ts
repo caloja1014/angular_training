@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ProductCart } from '../../models/product-cart.model';
+import { CartItem, ProductCart } from '../../models/product-cart.model';
 
 @Component({
   selector: 'app-product-cart',
@@ -9,12 +9,13 @@ import { ProductCart } from '../../models/product-cart.model';
 })
 export class ProductCartComponent {
 
-  product = input.required<ProductCart>();
+  cartItem = input.required<CartItem>();
 
   onRemove = output<number>();
 
+
   removeFromCart() {
-    this.onRemove.emit(this.product().product.id);
+    this.onRemove.emit(this.cartItem().id);
   }
 
 }

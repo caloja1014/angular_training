@@ -14,6 +14,7 @@ export class ProductCardComponent {
   product = input.required<Product>();
   cartService = inject(CartService);
   private router = inject(Router)
+
   viewProduct() {
     this.router.navigate(['/product', this.product().id]);
   }

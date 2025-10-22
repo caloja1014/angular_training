@@ -1,40 +1,80 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Product } from '../models/products.model';
 import { ProductCart } from '../models/product-cart.model';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { v4 as uuidv4 } from 'uuid';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  cart = signal<ProductCart[]>([]);
+  cart = signal<ProductCart | undefined>(undefined);
   private relativeUrl = '/cart';
   private baseUrl;
+
+  getQuantity = computed(() => {
+    console.log('Getting quantity 2', this.cart());
+    if (this.cart() && this.cart()?.CartItems) {
+      return this.cart()?.CartItems?.reduce((total, item) => total + item.quantity, 0);
+    }
+    return 0;
+  });
   constructor(
     private http: HttpClient
   ) {
     this.baseUrl = environment.apiUrl;
   }
 
-  addToCart(product: Product) {
-    const productInCart = this.cart().find(p => p.product.id === product.id);
-    if (productInCart) {
-      productInCart.quantity += 1;
-      this.cart.update((currentCart) => [...currentCart]);
+  async addToCart(product: Product) {
+    let currentCart = this.cart();
+    if (!currentCart) {
+      currentCart = await this.createCart();
+      console.log('Created cart', currentCart);
+      this.cart.set(currentCart);
     }
-    else {
-      this.cart.update((currentCart) => [...currentCart, { product, quantity: 1 }]);
+    const itemAdded = await firstValueFrom(this.http.post<any>(`${this.baseUrl}${this.relativeUrl}/${currentCart?.id}/items`, {
+      productId: product.id,
+      quantity: 1,
+    }));
+
+    if (!!itemAdded) {
+      const updatedCart = await this.getCart();
+      console.log('Updated cart', updatedCart);
+      this.cart.set(updatedCart);
     }
+
   }
-  removeFromCart(productId: number) {
-    this.cart.update((currentCart) => currentCart.filter(p => p.product.id !== productId));
+  async removeFromCart(itemId: number) {
+    try {
+      const res = await firstValueFrom(this.http.post(`${this.baseUrl}${this.relativeUrl}/${this.cart()?.id}/items/${itemId}`, {}));
+
+      const updatedCart = await this.getCart();
+      console.log('Updated cart after removal', updatedCart);
+      this.cart.set(updatedCart);
+    } catch (error) {
+      console.error('Error removing item from cart', error);
+    }
   }
   getTotal() {
-    return this.cart().reduce((total, item) => total + (item.product.price * item.quantity), 0);
+    if (this.cart() && this.cart()?.CartItems) {
+      return this.cart()?.CartItems?.reduce((total, item) => total + (item.Product.price * item.quantity), 0);
+    }
+    return 0;
   }
-  getQuantity() {
-    return this.cart().reduce((total, item) => total + item.quantity, 0);
+
+
+
+  async getCart() {
+
+    return firstValueFrom(this.http.get<ProductCart>(`${this.baseUrl}${this.relativeUrl}/${this.cart()?.id}`));
+  }
+
+  createCart() {
+    return firstValueFrom(this.http.post<ProductCart>(`${this.baseUrl}${this.relativeUrl}`, {
+      userName: uuidv4(),
+    }));
   }
 }

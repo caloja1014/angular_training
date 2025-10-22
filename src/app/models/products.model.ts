@@ -3,12 +3,12 @@ export interface Product {
   name: string
   description: string
   price: number
-  imageUrl: any
+  imageUrl?: string
   createdAt: string
   updatedAt: string
-  CategoryId: number
-  Category: Category
-  Inventory: Inventory
+  CategoryId?: number
+  Category?: Category
+  Inventory?: Inventory
 }
 
 export interface Category {
