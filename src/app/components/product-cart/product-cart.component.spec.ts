@@ -38,10 +38,31 @@ describe('ProductCartComponent', () => {
     await fixture.whenStable();
   });
 
+
+  // Component Tests (Logic, at class level)
+
   it('should create', () => {
     component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
+
+  it('should have cartItem input defined', () => {
+    expect(component.cartItem).toBeDefined();
+    expect(component.cartItem().id).toBe(42);
+    expect(component.cartItem().Product.name).toBe('Test Product');
+  });
+
+  it('should emit onRemove with item id', () => {
+    let removedItemId: number | null = 0;
+    component.onRemove.subscribe((id: number) => {
+      removedItemId = id;
+    });
+    component.onRemove.emit(42);
+    expect(removedItemId).toBe(42);
+  });
+
+
+  // Render Tests (Template, at DOM level)
 
   it('renders product name, price and image', () => {
     const nameEl = fixture.debugElement.query(By.css('.product-cart-title'));

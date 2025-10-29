@@ -45,15 +45,25 @@ describe('ProductCardComponent', () => {
         ProductId: 123,
       },
     };
-    fixture.componentRef.setInput('product',mockProduct);
+    fixture.componentRef.setInput('product', mockProduct);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
   });
 
+
+  // Component Tests (Logic, at class level)
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should have product input defined', () => {
+    expect(component.product).toBeDefined();
+    expect(component.product().id).toBe(123);
+    expect(component.product().name).toBe('Cool Widget');
+  });
+
+  // Render Tests (Template, at DOM level)
 
   it('renders name, price and image', () => {
     const nameEl = fixture.debugElement.query(By.css('.product-title'));

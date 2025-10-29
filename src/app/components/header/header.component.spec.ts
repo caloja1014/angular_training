@@ -25,6 +25,8 @@ describe('HeaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+  // Component Tests (Logic, at class level)
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -33,9 +35,17 @@ describe('HeaderComponent', () => {
     expect(component.title()).toBe('Angular ECommerce App');
   });
 
+  // Render Tests (Template, at DOM level)
+
   it('should pass correct label to primary button', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const button = compiled.querySelector('button');
     expect(button?.textContent).toContain('Cart (3)');
+  });
+
+  it('should render title in a h1 tag', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const span = compiled.querySelector('span');
+    expect(span?.textContent).toContain('Angular ECommerce App');
   });
 });

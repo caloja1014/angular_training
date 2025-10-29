@@ -27,9 +27,14 @@ describe('CartComponent', () => {
     fixture.detectChanges();
   });
 
+  // Component Tests (Logic, at class level)
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  // Render Tests (Template, at DOM level)
 
   it('shows empty message when cart has no items', () => {
     mockCartService.cart.set({
