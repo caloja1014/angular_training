@@ -32,15 +32,17 @@ export class ProductService {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);
     return this.http.get<Product[]>(this.baseUrl + this.relativeUrl).pipe(
-      tap((products) => this.productsSubject.next(products)),
+      tap((products) => {
+        this.productsSubject.next(products);
+        this.loadingSubject.next(false);
+      }),
       catchError((err) => {
         const message = err?.message ?? 'Failed to load products';
         this.errorSubject.next(message);
         this.productsSubject.next([]);
+        this.loadingSubject.next(false);
         return of([] as Product[]);
       }),
-      finalize(() => this.loadingSubject.next(false)),
-      shareReplay(1)
     );
   }
 
