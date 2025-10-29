@@ -3,7 +3,7 @@ export interface Product {
   name: string
   description: string
   price: number
-  imageUrl?: string
+  imageUrl?: string |null
   createdAt: string
   updatedAt: string
   CategoryId?: number
