@@ -17,7 +17,14 @@ describe('PrimaryButtonComponent', () => {
     fixture.detectChanges();
   });
 
+  // Component Tests (Logic, at class level)
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should have the default values', () => {
+    expect(component.label()).toBe('');
+    expect(component.disabled()).toBe(false);
+  });
+
 });
