@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Product } from '../../models/products.model';
 import { ProductCardComponent } from "../../components/product-card/product-card.component";
 import { ProductService } from '../../services/product.service';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products-list',
@@ -9,23 +10,22 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.scss'
 })
-export class ProductsListComponent implements OnInit{
+export class ProductsListComponent implements OnInit, OnDestroy {
   products = signal<Product[]>([]);
   productService = inject(ProductService);
-
+  suscriptions: Subscription[] = [];
   constructor() {
+  }
+  ngOnDestroy(): void {
+    this.suscriptions.forEach(s => s.unsubscribe());
   }
 
   async ngOnInit() {
-    const products = await this.productService.getProducts();
+    this.suscriptions.push(this.productService.loadProducts().subscribe());
+    const products = await firstValueFrom(this.productService.products$);
     console.log(products);
     this.products.set(products)
   }
 
-  // products = signal<Product[]>([
-  //   { id: 1, title: 'Product 1', image: 'https://placehold.co/150', price: 10.99, stock: 5, category: 'Category A', description: 'This is a description for Product 1' },
-  //   { id: 2, title: 'Product 2', image: 'https://placehold.co/150', price: 12.99, stock: 3, description: 'This is a description for Product 2' },
-  //   { id: 3, title: 'Product 3', image: 'https://placehold.co/150', price: 8.99, stock: 0, category: 'Category B', description: 'This is a description for Product 3' },
-  //   { id: 4, title: 'Product 4', image: 'https://placehold.co/150', price: 15.99, stock: 10, category: 'Category A', description: 'This is a description for Product 4' },
-  // ])
+
 }
